@@ -6,7 +6,10 @@ package com.br.sunioweb.editais.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -15,15 +18,23 @@ import org.springframework.security.core.GrantedAuthority;
  */
 @Entity
 @Data
-public class Role implements GrantedAuthority{
+public class Role implements GrantedAuthority
+{
     @Id
-    private Long id;
-    
     private String name;
 
     @Override
     public String getAuthority() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.name;
     }
-    
+
+    public Role()
+    {
+        
+    }
+
+    public Role(String role)
+    {
+        this.name = role;
+    }
 }

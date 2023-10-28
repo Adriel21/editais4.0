@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class index {
+public class IndexController {
 
     @GetMapping("/home")
     public ResponseEntity<String> exemplo() {

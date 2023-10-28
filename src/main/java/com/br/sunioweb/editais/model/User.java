@@ -4,26 +4,39 @@
  */
 package com.br.sunioweb.editais.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import lombok.Data;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
  * @author vinicius
  */
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 public class User implements UserDetails{
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     private String username;
@@ -38,8 +51,8 @@ public class User implements UserDetails{
 
     private boolean enabled;
     
-    @ManyToMany
-    private List<Role> roles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles = new ArrayList<>();
     
       public String encrypt(String password) 
     {
@@ -52,9 +65,9 @@ public class User implements UserDetails{
         return this.roles.add(role);   
     }
 
-    public boolean addRoles(List<Role> roles)
+    public boolean addroles(List<Role> role)
     {
-        return this.roles.addAll(roles);
+        return this.roles.addAll(role);
     }
 
     public boolean removeRole(Role role)
@@ -96,5 +109,29 @@ public class User implements UserDetails{
     @Override
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+
+    public User (){}
+    public User (String username, String password, Role role)
+    {
+        this.username = username;
+        this.password = new BCryptPasswordEncoder().encode(password);
+        this.accountNonExpired = true;
+        this.accountNonLocked = true;
+        this.credentialsNonExpired = true;
+        this.enabled = true;
+        this.roles.add(role);
+    }
+
+    public User (String username, String password)
+    {
+        this.username = username;
+        this.password = new BCryptPasswordEncoder().encode(password);
+        this.accountNonExpired = true;
+        this.accountNonLocked = true;
+        this.credentialsNonExpired = true;
+        this.enabled = true;
+        this.roles.add(new Role("ROLE_COMUM"));
     }
 }
