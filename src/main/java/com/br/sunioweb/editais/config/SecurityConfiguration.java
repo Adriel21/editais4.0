@@ -26,10 +26,9 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers(HttpMethod.POST, "/edital").hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.GET, "/edital").authenticated()
-//                        .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().permitAll()
+                        .requestMatchers(HttpMethod.POST, "/edital").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/edital").authenticated()
+                        .requestMatchers("/auth/**").permitAll()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

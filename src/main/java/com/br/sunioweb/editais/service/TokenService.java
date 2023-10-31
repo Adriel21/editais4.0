@@ -23,8 +23,8 @@ public class TokenService {
      * @param user
      * @return Token valido com tempo de duração
      */
-    public String generateToken(User user){
-        System.out.println(secret);
+    public String generateToken(User user)
+    {
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()

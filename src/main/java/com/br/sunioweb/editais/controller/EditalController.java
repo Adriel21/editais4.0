@@ -27,7 +27,7 @@ public class EditalController {
     }
 
     @PostMapping
-    public ResponseEntity<Edital> save (@RequestBody @Valid PostEditalDTO data)
+    public ResponseEntity<Edital> save (@RequestBody PostEditalDTO data)
     {
         Edital newEdital = new Edital(data.name(),data.number());
         return new ResponseEntity<Edital>(editalService.save(newEdital),HttpStatus.OK);

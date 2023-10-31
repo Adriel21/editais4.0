@@ -3,13 +3,11 @@ package com.br.sunioweb.editais.controller;
 import com.br.sunioweb.editais.dto.user.AuthenticationDTO;
 import com.br.sunioweb.editais.dto.user.LoginResponseDTO;
 import com.br.sunioweb.editais.dto.user.RegisterDTO;
-import com.br.sunioweb.editais.model.Edital;
 import com.br.sunioweb.editais.model.User;
 import com.br.sunioweb.editais.service.TokenService;
 import com.br.sunioweb.editais.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,11 +38,14 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data)
     {
-        System.out.println("ENTROUUUUUUUUUUUUU");
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
+
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(),data.password());
+
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
+
         var token = tokenService.generateToken((User) auth.getPrincipal());
+
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
