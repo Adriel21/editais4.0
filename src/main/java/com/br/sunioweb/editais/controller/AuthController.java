@@ -4,13 +4,10 @@ import com.br.sunioweb.editais.dto.response.ResponseDTO;
 import com.br.sunioweb.editais.dto.user.AuthenticationDTO;
 import com.br.sunioweb.editais.dto.user.LoginResponseDTO;
 import com.br.sunioweb.editais.dto.user.RegisterDTO;
-import com.br.sunioweb.editais.model.Edital;
 import com.br.sunioweb.editais.model.User;
 import com.br.sunioweb.editais.service.TokenService;
 import com.br.sunioweb.editais.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -52,14 +49,14 @@ public class AuthController {
     public ResponseDTO register(@RequestBody RegisterDTO data)
     {
         if(this.userService.findByLogin(data.login()) != null)
-            return new ResponseDTO("Usuario já cadastrado", "406");
+            return new ResponseDTO("Usuario já cadastrado", "406",null);
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         User newUser = new User(data.login(), encryptedPassword, data.role());
 
         this.userService.save(newUser);
 
-        return new ResponseDTO("Usuario cadastrado!","200");
+        return new ResponseDTO("Usuario cadastrado!","200",null);
 
     }
 }
