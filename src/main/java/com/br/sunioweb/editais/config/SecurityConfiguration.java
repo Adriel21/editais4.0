@@ -27,8 +27,9 @@ public class SecurityConfiguration {
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/edital").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/edital").authenticated()
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/register").hasRole("ADMIN")
+                        .requestMatchers("/auth/login").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

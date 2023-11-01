@@ -37,8 +37,9 @@ public class EditalController {
     public ResponseDTO save (@RequestBody PostEditalDTO data)
     {
         var newEdital =  editalService.save(new Edital(data.name(),data.number()));
-        return new ResponseDTO("Edital salvo com sucesso","200",newEdital);
 
+
+        return new ResponseDTO("Edital salvo com sucesso","200",newEdital);
     }
 
     @PatchMapping
@@ -52,7 +53,6 @@ public class EditalController {
     public ResponseDTO delete(@RequestParam Long id)
     {
         editalService.delete(id);
-        return new ResponseDTO("Edital atualizado","200",null);
+        return new ResponseDTO("Edital deletado","200",null);
     }
-
 }
