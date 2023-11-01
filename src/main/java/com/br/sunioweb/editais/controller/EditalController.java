@@ -1,17 +1,16 @@
 package com.br.sunioweb.editais.controller;
 
+import com.br.sunioweb.editais.dto.response.ResponseDTO;
+import com.br.sunioweb.editais.dto.response.ResponseDataDTO;
 import com.br.sunioweb.editais.dto.edital.PatchEditalDTO;
 import com.br.sunioweb.editais.dto.edital.PostEditalDTO;
 import com.br.sunioweb.editais.model.Edital;
 import com.br.sunioweb.editais.service.EditalService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/edital")
@@ -21,36 +20,32 @@ public class EditalController {
     private EditalService editalService;
 
     @GetMapping
-    public  ResponseEntity<List<Edital>> list ()
+    public  ResponseDataDTO list ()
     {
-        return new ResponseEntity<List<Edital>>(editalService.list(), HttpStatus.OK);
+        var editaisList = editalService.list();
+        return new ResponseDataDTO("sucesso","200",editaisList);
     }
 
     @PostMapping
-    public ResponseEntity<Edital> save (@RequestBody PostEditalDTO data)
+    public ResponseDataDTO save (@RequestBody PostEditalDTO data)
     {
-        Edital newEdital = new Edital(data.name(),data.number());
-        return new ResponseEntity<Edital>(editalService.save(newEdital),HttpStatus.OK);
+        var newEdital =  editalService.save(new Edital(data.name(),data.number()));
+        return new ResponseDataDTO("Edital salvo com sucesso","200",newEdital);
 
     }
 
     @PatchMapping
-    public ResponseEntity<Edital> update(@RequestBody @Valid PatchEditalDTO data)
+    public ResponseDataDTO update(@RequestBody @Valid PatchEditalDTO data)
     {
-        Edital newEdital = new Edital(data.id(), data.name(), data.number());
-        return new ResponseEntity<Edital>(editalService.save(newEdital), HttpStatus.OK);
+        var newEdital = editalService.save(new Edital(data.id(), data.name(), data.number()));
+        return new ResponseDataDTO("Edital atualizado","200",newEdital);
     }
 
     @DeleteMapping
-    public ResponseEntity<String> delete(@RequestParam Long id)
+    public ResponseDTO delete(@RequestParam Long id)
     {
         editalService.delete(id);
-        return  new ResponseEntity<String>("Apagou",HttpStatus.OK);
+        return new ResponseDTO("Edital atualizado","200");
     }
-
-
-
-
-
 
 }
